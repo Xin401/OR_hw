@@ -1,0 +1,17 @@
+@startuml
+rectangle "x<sup>1</sup> = (7.5,0)\n z<sup>1</sup> = 22.5" as root {
+}
+rectangle "x<sup>2</sup> = (7,0.25)\n z<sup>2</sup> = 22.25" as l1 {
+}
+rectangle "Infeasible" as r1{
+
+}
+rectangle "x<sup>3</sup> = (7.0,0)\n z<sup>3</sup> = 21" as l2{
+}
+rectangle "x<sup>4</sup> = (5,1)\n z<sup>4</sup> = 20" as r2{
+}
+root --- l1 : <math> x_1 <= 7 </math>
+root --- r1 : <math> x_1 >= 8 </math>
+l1 --- l2 : <math> x_2 <= 0 </math>
+l1 --- r2 : <math> x_2 >= 1 </math>
+@enduml

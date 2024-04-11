@@ -1,0 +1,190 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs,mathtools}
+\usepackage{multirow}
+\usepackage[english]{babel}
+
+\title{Operations Reasearch, Spring 2024 (112-2)\\ Homework 2}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.85}
+\begin{document}
+\maketitle
+\begin{enumerate}
+      \item (20 points; 5 points each) Consider the following LP
+            \begin{align*}
+                  \min \quad        & x_1 + 3x_2                        \\
+                  \text{s.t.} \quad & x_1 + x_2 \geq 4                  \\
+                                    & x_1 + 2x_2 \leq 9                 \\
+                                    & x_2 \geq 3                        \\
+                                    & x_i \geq 0 \quad \forall i = 1,2.
+            \end{align*}
+            \begin{enumerate}
+                  \item Find the standard form of this LP.\\
+                        \textbf{Ans.}
+                        \begin{equation*}
+                              \begin{alignedat}{10}
+                                    \min \quad       &  & x_1 & \ +\  & 3x_2             \\
+                                    \text{s.t.} \quad &  & x_1 & \ +\  & x_2  & \ -\  & x_3 &&&&& \ =\  & 4 \\
+                                    && x_1 & \ +\  & 2x_2 & & &\ +\  & x_4 & & & \ =\  & 9\\
+                                    && & & x_2 & & & & & \ -\  & x_5 & \ =\  & 3 \\
+                                    & \mathrlap{x_i \geq 0\quad \forall i=1,\dots ,5.}
+                              \end{alignedat}
+                        \end{equation*}
+                  \item List all the basic solutions and basic feasible solutions for the standard form of this LP.\\
+                        \textbf{Ans.}\\
+                        All the baif solutions and basic feasible solutions for the standard form of this LP are shown in Table \ref{tab:1}.
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{|c|c|c|c|c|c|c|}
+                                    \hline
+                                    \multirow{2}{*}{Basis} & \multirow{2}{*}{feasible} & \multicolumn{5}{|c|}{Basic Solution}                                 \\
+                                    \cline{3-7}            &                           & $x_1$                                & $x_2$ & $x_3$ & $x_4$ & $x_5$ \\
+                                    \hline
+                                    $(x_1,x_2,x_3)$        & Yes                       & 3                                    & 3     & 2     & 0     & 0     \\
+                                    $(x_1,x_2,x_4)$        & Yes                       & 1                                    & 3     & 0     & 2     & 0     \\
+                                    $(x_1,x_2,x_5)$        & No                        & -1                                   & 5     & 0     & 0     & 2     \\
+                                    $(x_2,x_3,x_4)$        & No                        & 0                                    & 3     & -1    & 3     & 0     \\
+                                    $(x_2,x_3,x_5)$        & Yes                       & 0                                    & 9     & 5     & 0     & 6     \\
+                                    $(x_3,x_4,x_5)$        & No                        & 0                                    & 0     & -4    & 9     & -3    \\
+                                    \hline
+                              \end{tabular}
+                              \caption{All the basic solutions and basic feasible solutions for the LP.}
+                              \label{tab:1}
+                        \end{table}
+
+                  \item List all the extreme points of the feasible region of the original LP. DO NOT prove that they are extreme points; just list them. Then show that there is a one-to-one correspondence between basic feasible solutions and extreme points.\\
+                        \textbf{Ans.}\\
+                        basic feasible solutions:
+                        \begin{equation*}
+                              (3,3,2,0,0), (1,3,0,2,0),(0,9,5,0,6)
+                        \end{equation*}
+                        extreme points:
+                        \begin{equation*}
+                              (3,3,2,0,0), (1,3,0,2,0),(0,9,5,0,6)
+                        \end{equation*}
+                        There is a one-to-one correspondence between basic feasible solutions and extreme points.
+                  \item Use the simplex method (with the two-phase implementation, if needed) and the smallest index rule to solve the LP. Write down the complete process, optimal solution to the original LP, and its associated objective value. Is there any iteration that has no improvement?\\
+                        \textbf{Ans.}\\
+                        Its Phase-I standard form LP is
+                        \begin{equation*}
+                              \begin{alignedat}{14}
+                                    \min \quad       &  &  &  &  &&&&&&&&x_6&\ +\ &x_7            \\
+                                    \text{s.t.} \quad &  & x_1 & \ +\  & x_2  & \ -\  & x_3 &&&&&\ +\ &x_6&&& \ =\  & 4 \\
+                                    && x_1 & \ +\  & 2x_2 & & &\ +\  & x_4 & & &&&&& \ =\  & 9\\
+                                    && & & x_2 & & & & & \ -\  & x_5 &&&\ +\ &x_7& \ =\  & 3 \\
+                                    & \mathrlap{x_i \geq 0\quad \forall i=1,\dots ,7.}
+                              \end{alignedat}
+                        \end{equation*}
+                        The initial tableau is shown below.
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{ccccccc|c}
+                                    0 & 0 & 0  & 0 & 0  & -1 & -1 & 0       \\
+                                    \hline
+                                    1 & 1 & -1 & 0 & 0  & 1  & 0  & $x_6=4$ \\
+                                    1 & 2 & 0  & 1 & 0  & 0  & 0  & $x_4=9$ \\
+                                    0 & 1 & 0  & 0 & -1 & 0  & 1  & $x_7=3$ \\
+                              \end{tabular}
+                        \end{table}
+            \end{enumerate}
+            Adjust the tableau to get the following tableau.
+            \begin{table}[H]
+                  \centering
+                  \begin{tabular}{ccccccc|c}
+                        1 & 2 & -1 & 0 & -1 & 0 & 0 & 7       \\
+                        \hline
+                        1 & 1 & -1 & 0 & 0  & 1 & 0 & $x_6=4$ \\
+                        1 & 2 & 0  & 1 & 0  & 0 & 0 & $x_4=9$ \\
+                        0 & 1 & 0  & 0 & -1 & 0 & 1 & $x_7=3$ \\
+                  \end{tabular}
+            \end{table}
+            Solve the Phase-I LP:
+            \begin{table}[H]
+                  \centering
+                  \begin{tabular}{cccccc|c}
+                        0 & 1 & 0  & 0 & -1 & 0 & 3       \\
+                        \hline
+                        1 & 1 & -1 & 0 & 0  & 0 & $x_1=4$ \\
+                        0 & 1 & 1  & 1 & 0  & 0 & $x_4=5$ \\
+                        0 & 1 & 0  & 0 & -1 & 1 & $x_7=3$ \\
+                  \end{tabular}
+                  $\rightarrow$
+                  \begin{tabular}{ccccc|c}
+                        0 & 0 & 0  & 0 & 0  & 0       \\
+                        \hline
+                        1 & 0 & -1 & 0 & 1  & $x_1=1$ \\
+                        0 & 0 & 1  & 1 & 1  & $x_4=2$ \\
+                        0 & 1 & 0  & 0 & -1 & $x_2=3$ \\
+                  \end{tabular}
+            \end{table}
+            A feasible basis for the original LP is $(x_1,x_2,x_4)$.
+            Solve the phase-II LP:
+            \begin{table}[H]
+                  \centering
+                  \begin{tabular}{ccccc|c}
+                        -1 & -3 & 0  & 0 & 0  & -10     \\
+                        \hline
+                        1  & 1  & -1 & 0 & 0  & $x_1=1$ \\
+                        1  & 2  & 0  & 1 & 0  & $x_4=2$ \\
+                        0  & 1  & 0  & 0 & -1 & $x_2=3$ \\
+                  \end{tabular}
+            \end{table}
+      \item (10 points; 5 points each) Consider the integer program
+            \begin{align*}
+                  \max \quad       & 2x_1 + 2x_2 + 5x_3 + 11x_4 + 10x_5+3x_6 -6x_7       \\
+                  \text{s.t.}\quad & x_1 + 4x_2 + 3x_3 + 5x_4 + 3x_5 -4x_6 + 2x_7 \leq 6 \\
+                                   & x_i \in \{0,1\} \quad \forall i = 1,...,7,
+            \end{align*}
+            which is a variant of the knapsack problem.
+            \begin{enumerate}
+                  \item Use the greedy algorithm introduced in class to solve the linear relaxation of this integer program.
+                  \item Use the branch-and-bound algorithm to solve the original integer program. Depict the full branch-and-bound tree. Do not write down the solution process of each node; write down just an optimal solution and its objective value of each node.
+            \end{enumerate}
+      \item (15 points) There are m towns in a county. The county government is considering where to build at least p landfills in n potential locations. The distance between town i and location j is dij . The population at town i is hi. The government wants to maximize the average distances between each person and her/his closest landfill.
+            \begin{enumerate}
+                  \item (5 points) Formulate an integer program to achieve this goal. Use your own words to explain the formulation in details.\\
+                        \textbf{Hint.} This problem has appeared in one lecture problem.\\
+                        \textbf{Note.} If you believe ChatGPT may help you explain the formulation, please feel free to use it. All you need to do is to make sure that the explanation is correct, precise, and concise.
+                  \item (10 points) Consider the two instances contained in the file "OR112-2 hw02 data.xlsx" (if you do not use Microsoft Excel, you may use Google Spreadsheet to open the file). In each sheet, which contains an instance, parameter symbols are in blue cells, indices are in orange cells, and parameter values are in green cells. For example, in instance $2$, $m = 20, n = 10, p = 5, h_2 = 28,$ and $d_{12,5} = 164$.\\
+                        Write Python to invoke Gurobi Optimizer to solve the two instances. Submit your Python
+                        program by copying and pasting it into your answer. You should not hard code those param-
+                        eter values; please put the parameter values in a file and read data from the file to retrieve
+                        the values. There is no need to explain the program in your answer; just submit it. Moreover,
+                        report the optimal solutions (and their objective values) you find for the two instances.\\
+                        If you prefer, you may write your program in other languages; if you prefer, you may use
+                        other optimization library (as long as you ensure that it generates a correct optimal solution).
+                        Nevertheless, please understand that while we provide instruction on using Python to invoke
+                        Gurobi Optimizer, there is nothing we may help with other combinations
+            \end{enumerate}
+      \item (35 points) Continue from Problem 3.
+            \begin{enumerate}
+                  \item (10 points) Consider the following greedy algorithm designed for the landfill location problem. The algorithm runs in $n - p$ iterations. Initially, the algorithm starts with a feasible solution that builds a landfill in each candidate locations. In each iteration, it examines all landfills to see if one and exactly one landfill can be removed, removing which one results in the maximum objective value in that iteration (and if there is a tie, it chooses the landfill with the smallest index). It keeps removing landfills until only $p$ landfills remain.\\
+                        Implement this greedy algorithm in Python or any language you like. Submit your program by copying and pasting it into your answer. You should not hard code those parameter values; please put the parameter values in a file and read data from the file to retrieve the values. There is no need to explain the program in your answer; just submit it. Moreover, report the solutions (and their objective values) you find for the two instances.
+                  \item (10 points) Consider another heuristic algorithm designed for the landfill location problem
+                        based on linear relaxation. The idea is simple. Given an instance, first we solve its linear
+                        relaxation to obtain a probably fractional LP-optimal solution $x^{LP}$ . We then pick the largest
+                        p values and set the corresponding $x^{LP}$ to 1 (if there is a tie, pick those with smaller indices);
+                        the remaining $n - p$ variables are set to 0.\\
+                        Implement this heuristic algorithm in Python or any language you like. When solving the linear relaxation, use Gurobi Optimizer or any optimization library you like. Submit your program by copying and pasting it into your answer. You should not hard code those param- eter values; please put the parameter values in a file and read data from the file to retrieve the values. There is no need to explain the program in your answer; just submit it. Moreover, report the solutions (and their objective values) you find for the two instances.
+                  \item (5 points) Let $z_k^G$ be the objective value of the solution found by the greedy algorithm in Part (a) for instance $k \in \{1,2\}$. Similarly, let zkR be that by the heuristic algorithm in Part (b) for instance $k \in \{1, 2\}$. For each of the two instances, report $z_k^{IP}$ , $z_k^{LP}$ , $z_k^G$, $z_k^R$, and the four percentage optimality gaps (each algorithm has two optimality gaps, one uses $z_k^{IP}$ and one uses $z_k^{LP}$ ). In average, which algorithm performs better in these two instances?
+                  \item (10 points) Comment on the time complexity (with the big-O notation) and performance of the two heuristic algorithms. If you need to solve the landfill location problem with $m = 500, n = 100, \text{and } p = 20,$ which algorithm do you prefer? Why?\\
+                        \textbf{Hint.} The complexity of using the simplex method to solve a linear program with $m$ constraints in roughly $O(m^3).$ Though the way Gurobi Optimizer solves a linear program is more complicated than just running the classic simplex method, the complexity is pretty much at the same order. To answer this problem, please use the $O(m^3)$ fact directly.
+            \end{enumerate}
+      \item (20 points; 10 points each) Consider the following nonlinear program
+            \begin{equation*}
+                  \min 3x_1^2 + 2x_2^2 + 4x_1x_2 +6e^{x_1}+x2
+            \end{equation*}
+            Later when needed, use numerical solutions rather than analytical solutions. For example, when solving $-x = e^x$, using any calculator or software to find $x = -0.567$ as a numerical solution is good enough. There is no need to analytically solve $-x = e^x$.
+            \begin{enumerate}
+                  \item Start from $(x_1,x_2) = (0,0)$ to run one iteration of the gradient descent method to solve this instance. In this iteration, move to the global minimum along the direction you choose. Write down the detailed process of the iteration.
+                  \item Start from $(x_1, x_2) = (0, 0)$ to run one iteration of the Newton’s method to solve this instance. Write down the detailed process of the iteration.
+            \end{enumerate}
+\end{enumerate}
+\end{document}

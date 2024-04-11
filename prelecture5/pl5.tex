@@ -1,0 +1,99 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+
+
+\title{Pre-lecture Problems for Lecture 5:\\
+The Simplex Method}
+\author{B10705034 Wen-Xin, Xu}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item[3.] (10 points) Consider the following LP
+        \begin{align*}
+            \text{max }  & x_1 + 2x_2 + x_3                       \\
+            \text{s.t. } & x_1 + x_2 \leq 10                      \\
+                         & x_2 + x_3 \leq 8                       \\
+                         & x_i \geq 0 \quad \forall i = 1, ...,3.
+        \end{align*}
+        \begin{enumerate}
+            \item (5 points) Find all the basic solutions and basic feasible solutions for the LP.\\
+                  \textbf{Ans. }\\
+                  We can first change the LP into standard form:
+                  \begin{align*}
+                      \text{max }  & x_1 + 2x_2 + x_3                           \\
+                      \text{s.t. } & x_1 + x_2  \quad\quad +x_4 \quad\quad = 10 \\
+                                   & \quad \quad x_2 + x_3 \quad \quad +x_5 = 8 \\
+                                   & x_i \geq 0 \quad \forall i = 1, ...,5.
+                  \end{align*}
+                  Then we can find all the basic solutions and basic feasible solutions for the LP.
+                  \begin{table}[H]
+                      \centering
+                      \begin{tabular}{|c|c|c|c|c|c|c|}
+                          \hline
+                          Basis       & feasible & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ \\
+                          \hline
+                          $(x_1,x_2)$ & Yes      & 2     & 8     & 0     & 0     & 0     \\
+                          $(x_1,x_3)$ & Yes      & 10    & 0     & 8     & 0     & 0     \\
+                          $(x_1,x_5)$ & Yes      & 10    & 0     & 0     & 0     & 8     \\
+                          $(x_2,x_3)$ & No       & 0     & 10    & -2    & 0     & 0     \\
+                          $(x_2,x_4)$ & Yes      & 0     & 8     & 0     & 2     & 0     \\
+                          $(x_2,x_5)$ & No       & 0     & 10    & 0     & 0     & -2    \\
+                          $(x_3,x_4)$ & Yes      & 0     & 0     & 8     & 10    & 0     \\
+                          $(x_4,x_5)$ & Yes      & 0     & 0     & 0     & 10    & 8     \\
+                          \hline
+                      \end{tabular}
+                      \caption{All the basic solutions and basic feasible solutions for the LP.}
+                  \end{table}
+            \item (5 points) Use the simplex method to solve that LP. In the first iteration, enter x1. Write down all the iterations, an optimal solution, and the associated objective value.\\
+                  \textbf{Ans. }\\
+                  Let $z = x_1 + 2x_2 + x_3$, we can write the LP in the following form:
+                  \begin{align*}
+                      z- x_1 - 2x_2 - x_3 \quad\quad\quad\quad =0           \\
+                      \quad\quad x_1 + x_2  \quad\quad +x_4 \quad\quad = 10 \\
+                      \quad\quad\quad \quad x_2 + x_3 \quad \quad +x_5 = 8  \\
+                  \end{align*}
+                  Then we can write the initial tableau:
+                  \begin{table}[H]
+                      \centering
+                      \begin{tabular}{ccccc|c}
+                          -1 & -2 & -1 & 0 & 0 & 0          \\
+                          \hline
+                          1  & 1  & 0  & 1 & 0 & $x_4 = 10$ \\
+                          0  & 1  & 1  & 0 & 1 & $x_5 = 8$  \\
+                      \end{tabular}
+                      \caption{Initial Tableau}
+                  \end{table}
+                  We can see that the coefficient of $x_1$ in the objective row is -1, so we can enter $x_1$ into the basis. Then we can write the next tableau:
+                  \begin{table}[H]
+                      \centering
+                      \begin{tabular}{ccccc|c}
+                          0 & -1 & -1 & 1 & 0 & 10         \\
+                          \hline
+                          1 & 1  & 0  & 1 & 0 & $x_1 = 10$ \\
+                          0 & 1  & 1  & 0 & 1 & $x_5 = 8$  \\
+                      \end{tabular}
+                      \caption{Second Tableau}
+                  \end{table}
+                  We can see that the coefficient of $x_2$ in the objective row is -1, so we can enter $x_2$ into the basis. Then we can write the next tableau:
+                  \begin{table}[H]
+                      \centering
+                      \begin{tabular}{ccccc|c}
+                          0 & 0 & 0  & 1 & 1  & 18      \\
+                          \hline
+                          1 & 0 & -1 & 1 & -1 & $x_1=2$ \\
+                          0 & 1 & 1  & 0 & 1  & $x_2=8$ \\
+                      \end{tabular}
+                      \caption{Third Tableau}
+                  \end{table}
+                  We can see that all the coefficients in the objective row are non-negative, so the current solution is optimal. The optimal solution is $x_1=2$, $x_2=8$, $x_3=0$, and the associated objective value is $z=2+2*8+0=18$.
+        \end{enumerate}
+\end{enumerate}
+\end{document}
+

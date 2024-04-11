@@ -1,0 +1,178 @@
+\documentclass[14pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\title{Operations Research Homework 1}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+Here are some technical notes before you start. When we say a "linear program", it cannot contain nonlinear functions and integer variables; when we say an "integer program", it cannot contain nonlinear functions; when we say a "nonlinear program", it cannot contain integer variables. Moreover, nonlinear functions include maximum functions, minimum functions, multiplication of decision variables, division of decision variables, among others.
+\begin{enumerate}
+      \item (30 points; 10 points each) During the next $n$ months, the IEDO company has demand $D_t$ for air conditioners in month $t$, $t = 1, ..., n$. Air conditioners can be produced in $m$ sites. It takes $L_i$ hours of skilled labor to produce an air conditioner in site $i$, $i = 1, ..., m$. It costs $C^P_i$ to produce an air conditioner in site $i$, $i = 1, ..., m$. During each month, each city has $K$ hours of skilled labor available. It costs $C^H$ to hold an air conditioner in inventory for a month. At the beginning of month $1$, IEDO has $I$ air conditioners in stock.
+            \begin{enumerate}
+                  \item Suppose that IEDO must meet all the demands on time. Formulate a linear program whose solution will tell IEDO how to minimize the cost of meeting air conditioner demands for the next six months.\\
+                        \textbf{Ans. }\\
+                        Let $x_{it}$ be the number of air conditioners produced in site $i$ in month $t$, and $h_t$ be the number of air conditioners in stock at the end of month $t$. Then the linear program is
+                        \begin{align*}
+                              \text{min }  & \sum_{t=1}^6(\sum_{i=1}^m C^P_ix_{it}) + C^Hh_t                                      \\
+                              \text{s.t. } & h_0 = I                                                                              \\
+                                           & h_t = h_{t-1} + \sum_{i=1}^m x_{it} - D_t, \quad \forall t = 1, 2, 3, 4, 5, 6        \\
+                                           & x_{it}L_i \leq K, \quad \forall i = 1, 2, ..., m, \quad \forall t = 1, 2, 3, 4, 5, 6 \\
+                                           & x_{it} \geq 0, \quad \forall i = 1, 2, ..., m, \quad \forall t = 1, 2, 3, 4, 5, 6    \\
+                                           & h_t \geq 0, \quad \forall t = 1, 2, 3, 4, 5, 6                                       \\
+                        \end{align*}
+                  \item Suppose that those demands are the maximum number that IEDO may sell, and IEDO can decide the sales quantity in each month. Each air conditioner can be sold at $\$600$. Formulate an LP whose solution maximizes the profit of selling air conditioners for the next six months. Your formulation must be a compact one.\\
+                        \textbf{Ans. }\\
+                        Let $y_t$ be the number of air conditioners sold in month $t$. Then the linear program is
+                        \begin{align*}
+                              \text{max }  & \sum_{t=1}^6 600 \cdot y_t - \sum_{t=1}^6\sum_{i=1}^m C^P_ix_{it} - C^Hh_t           \\
+                              \text{s.t. } & h_0 = I                                                                              \\
+                                           & h_t = h_{t-1} + \sum_{i=1}^m x_{it} - y_t, \quad \forall t = 1, 2, 3, 4, 5, 6        \\
+                                           & y_t \leq D_t, \quad \forall t = 1, 2, 3, 4, 5, 6                                     \\
+                                           & x_{it}L_i \leq K, \quad \forall i = 1, 2, ..., m, \quad \forall t = 1, 2, 3, 4, 5, 6 \\
+                                           & x_{it} \geq 0, \quad \forall i = 1, 2, ..., m, \quad \forall t = 1, 2, 3, 4, 5, 6    \\
+                                           & h_t \geq 0, \quad \forall t = 1, 2, 3, 4, 5, 6                                       \\
+                                           & y_t \geq 0, \quad \forall t = 1, 2, 3, 4, 5, 6
+                        \end{align*}
+                  \item Continue from Part (a) and solve the linear program to obtain an optimal solution according to the following information. During the next six months, the IEDO company has following demands for air conditioners: month 1, 2500; month 2, 4000; month 3, 4500; month 4, 4200; month 5, 3800; month 6, 4400. Air conditioners can be produced in either Hsinchu or Taoyuan. It takes 2 hours of skilled labor to produce an air conditioner in Hsinchu, and 2.5 hours in Taoyuan. It costs $\$400$ to produce an air conditioner in Hsinchu, and $\$350$ in Taoyuan. During each month, each city has 4000 hours of skilled labor available. It costs $\$80$ to hold an air conditioner in inventory for a month. At the beginning of month 1, IEDO has 2000 air conditioners in stock.\\
+                        \textbf{Ans. }\\
+                        Let Hsinchu be site $t=0$, and Taoyuan be site $t=1$. Then the linear program is
+                        The optimal solution is:\\
+                        $x_{01} = 1800, x_{11} = 1600,\\
+                              x_{02} = 2000, x_{12} = 1600,\\
+                              x_{03} = 2000, x_{13} = 1600,\\
+                              x_{04} = 2000, x_{14} = 1600,\\
+                              x_{05} = 2000, x_{15} = 1600,\\
+                              x_{06} = 2000, x_{16} = 1600,\\
+                              h_1 = 2900,\\
+                              h_2 = 2500,\\
+                              h_3 = 1600,\\
+                              h_4 = 1000,\\
+                              h_5 = 800,\\
+                              h_6 = 0$ \\
+                        and the minimum cost is $\$8944000$.
+            \end{enumerate}
+      \item (30 points; 10 points each) A city is divided into $n$ districts. The time (in minutes) it takes an ambulance to travel from district $i$ to $j$ is $D_{ij}$. The population of district $i$ (in thousands) is $H_i$. The city has $p$ ambulances and wants to locate them. Formulate an integer program that can achieve each of the following goals.
+            \begin{enumerate}
+                  \item To maximize the number of people who live within (no greater than) $B$ minutes of at least one ambulance.\\
+                        \textbf{Ans. }\\
+                        Let $x_{i}$ be the binary variable that indicates whether an ambulance is located in district $i$. \\
+                        Let $y_{ij}$ be the binary variable that indicates $D_{ij} \leq B$. \\
+                        Let $z_i$ be the binary variable that indicates whether district $z$ is within $B$ minutes of at least one ambulance. \\
+                        Let $M$ be the maximum value of $D_{ij} + B$. \\
+                        Then the integer program is:
+                        \begin{align*}
+                              \text{max }  & \sum_{i=1}^n H_iz_{i}                                                               \\
+                              \text{s.t. } & \sum_{i=1}^n x_i \leq p                                                             \\
+                                           & D_{ij} - B \geq -My_{ij}                                                            \\
+                                           & D_{ij} - B \leq M(1-y_{ij})                                                         \\
+                                           & z_i \leq \sum_{j=1}^nx_jy_{ij}, \quad \forall i = 1, 2, ..., n                      \\
+                                           & x_i \geq 0 ,\quad \forall i = 1, 2, ..., n                                          \\
+                                           & y_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n \\
+                                           & z_i \in \{0, 1\}, \quad \forall i = 1, 2, ..., n
+                        \end{align*}
+                  \item To maximize the number of people who live within (no greater than) $B$ minutes of at least two ambulances.\\
+                        \textbf{Ans. }
+                        \begin{align*}
+                              \text{max }  & \sum_{i=1}^n H_iz_{i}                                                                      \\
+                              \text{s.t. } & \sum_{i=1}^n x_i \leq p                                                                    \\
+                                           & D_{ij} - B \geq -My_{ij} \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n    \\
+                                           & D_{ij} - B \leq M(1-y_{ij}) \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n \\
+                                           & \sum_{j=1}^n x_jy_{ij} \geq 2z_i, \quad \forall i = 1, 2, ..., n                           \\
+                                           & x_i \geq 0, \quad \forall i = 1, 2, ..., n                                                 \\
+                                           & y_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n        \\
+                                           & z_i \in \{0, 1\}, \quad \forall i = 1, 2, ..., n
+                        \end{align*}
+                  \item To maximize the minimum of the following two quantities: (1) the number of people who live within (no greater than) $B_1$ minutes of at least two ambulances, and (2) the number of people who live within (no greater than) $B_2$ minutes of at least one ambulance or within (no greater than) $B_3$ minutes of at least three ambulances.\\
+                        \textbf{Ans. }\\
+                        Let $z_{ai}$ be the binary variable that indicates whether district $i$ is within $B_k$ minutes of at least $a$ ambulances. $a = \{1,2,3\}, k = \{2,1,3\}$ \\
+                        Let $y_{ijk}$ be the binary variable that indicates $D_{ij} \leq B_k$. \\
+                        Let $v_i$ be the binary that indicates $z_{1i} = 1 $ or $z_{3i} = 1$. \\
+                        Then the integer program is:
+                        \begin{align*}
+                              \text{max }  & \min\{\sum_{i=1}^n H_iz_{2i},\sum_{i=1}^n H_iv_{i}\}                                                                      \\
+                              \text{s.t. } & \sum_{i=1}^n x_i \leq p                                                                                                   \\
+                                           & D_{ij} - B_k \geq -My_{ijk} \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n, \quad \forall k = 1, 2, 3     \\
+                                           & D_{ij} - B_k \leq M(1-y_{ijk}) \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n,  \quad \forall k = 1, 2, 3 \\
+                                           & \sum_{j=1}^n x_jy_{ij2} \geq z_{1i}, \quad \forall i = 1, 2, ..., n                                                       \\
+                                           & \sum_{j=1}^n x_jy_{ij1} \geq 2z_{2i}, \quad \forall i = 1, 2, ..., n                                                      \\
+                                           & \sum_{j=1}^n x_jy_{ij3} \geq 3z_{3i}, \quad \forall i = 1, 2, ..., n                                                      \\
+                                           & v_i \leq z_{1i}+z_{3i}, \quad \forall i = 1, 2, ..., n                                                                    \\
+                                           & v_i \in \{0, 1\}, \quad \forall i = 1, 2, ..., n                                                                          \\
+                                           & x_i \geq 0, \quad \forall i = 1, 2, ..., n                                                                                \\
+                                           & y_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n                                       \\
+                                           & z_{ai} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall a = 1, 2, 3
+                        \end{align*}
+                        Then we can let $w = \min\{\sum_{i=1}^n H_iz_{2i},\sum_{i=1}^n H_iv_{i}\}                                                 $, and add the following constraints to the integer program:
+                        \begin{align*}
+                              \text{max }  & w                                                                                                                         \\
+                              \text{s.t. } & w \leq \sum_{i=1}^n H_iz_{2i}                                                                                             \\
+                                           & w \leq \sum_{i=1}^n H_iv_{i}                                                                                              \\
+                                           & \sum_{i=1}^n x_i \leq p                                                                                                   \\
+                                           & D_{ij} - B_k \geq -My_{ijk} \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n, \quad \forall k = 1, 2, 3     \\
+                                           & D_{ij} - B_k \leq M(1-y_{ijk}) \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n,  \quad \forall k = 1, 2, 3 \\
+                                           & \sum_{j=1}^n x_jy_{ij2} \geq z_{1i}, \quad \forall i = 1, 2, ..., n                                                       \\
+                                           & \sum_{j=1}^n x_jy_{ij1} \geq 2z_{2i}, \quad \forall i = 1, 2, ..., n                                                      \\
+                                           & \sum_{j=1}^n x_jy_{ij3} \geq 3z_{3i}, \quad \forall i = 1, 2, ..., n                                                      \\
+                                           & v_i \leq z_{1i}+z_{3i}, \quad \forall i = 1, 2, ..., n                                                                    \\
+                                           & v_i \in \{0, 1\}, \quad \forall i = 1, 2, ..., n                                                                          \\
+                                           & x_i \geq 0, \quad \forall i = 1, 2, ..., n                                                                                \\
+                                           & y_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2, ..., n                                       \\
+                                           & z_{ai} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall a = 1, 2, 3
+                        \end{align*}
+            \end{enumerate}
+      \item (30 points; 10 points each) Michelle is traveling from Germany to Taiwan. She bought two bags, each can carry up to $K$ kg of items. There are several items in a set $I = {1,2,...,n}$ that she considers to carry. The weights and values of item $i$ is $W_i$ and $V_i$, $i \in I$. Michelle wants to maximize the total values of the items she carry while satisfying the capacity constraint, i.e., each bag cannot carry more than $K$ kg. Do each of the following problems independently.
+            \begin{enumerate}
+                  \item Formulate an integer program that solves Michelle’s problem.\\
+                        \textbf{Ans. }\\
+                        Let $x_{ij}$ be the binary variable that indicates whether item $i$ is carried in bag $j$. Then the integer program is
+                        \begin{align*}
+                              \text{max }  & \sum_{i=1}^n\sum_{j=1}^2 V_ix_{ij}                                          \\
+                              \text{s.t. } & \sum_{j=1}^2 x_{ij} \leq 1, \quad \forall i = 1, 2, ..., n                  \\
+                                           & \sum_{i=1}^n W_ix_{ij} \leq K, \quad \forall j = 1, 2                       \\
+                                           & x_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2 \\
+                        \end{align*}
+                  \item Suppose that items 2 and 3 cannot be put in the same bag, items 4, 5, and 6 cannot be all put in the same bag (but two of them can be put in the same bag), at least two of items 8 to 12 must be carried, and at least one of items 1 and 2 must be carried if item 3 is not carried. Formulate an integer program that solves Michelle’s problem.\\
+                        \textbf{Ans. }
+                        \begin{align*}
+                              \text{max}   & \sum_{i=1}^n\sum_{j=1}^2 V_ix_{ij}                                          \\
+                              \text{s.t. } & \sum_{j=1}^2 x_{ij} \leq 1, \quad \forall i = 1, 2, ..., n                  \\
+                                           & \sum_{i=1}^n W_ix_{ij} \leq K, \quad \forall j = 1, 2                       \\
+                                           & x_{2j}+x_{3j} \leq 1, \quad \forall j = 1, 2                                \\
+                                           & x_{4j}+x_{5j}+x_{6j} \leq 2, \quad \forall j = 1, 2                         \\
+                                           & \sum_{j=1}^2 x_{8j}+x_{9j}+x_{10j}+x_{11j}+x_{12j} \geq 2                   \\
+                                           & \sum_{j=1}^2x_{1j}+x_{2j} \geq 1-\sum_{j=1}^2x_{3j}                         \\
+                                           & x_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2 \\
+                        \end{align*}
+                  \item Suppose that if items $i$ and $i + 1$ are both brought in the trip, $i = 1, ..., n - 1,$ an additional value $A_i$ will be created for Michelle. Moreover, suppose that if items $i$ and $i + 1$ are both put in the same bag, an additional value $B_i$ will be created for Michelle. For example, if Michelle put items 1 and 2 in bag 1 and items 3 and 4 in bag 2, her total value is $V1 + V2 + V3 + V4 + A1 + A2 + A3 + B1 + B3$. Formulate an integer program that solves Michelle’s problem.\\
+                        \textbf{Ans. }\\
+                        Let $y_i$ be the binary variable that indicates whether item $i$ and $i+1$ are both brought in the trip.\\
+                        Let $z_{iJ}$ be the binary variable that indicates whether item $i$ and $i+1$ are both put in the same bag $j$.\\
+                        Then the integer program is
+                        \begin{align*}
+                              \text{max}  & \sum_{i=1}^n\sum_{j=1}^2 V_ix_{ij} + \sum_{i=1}^{n-1}A_iy_i + \sum_{i=1}^{n-1}\sum_{j=1}^2B_iz_{ij} \\
+                              \text{s.t.} & \sum_{j=1}^2 x_{ij} \leq 1, \quad \forall i = 1, 2, ..., n                                          \\
+                                          & \sum_{i=1}^n W_ix_{ij} \leq K, \quad \forall j = 1, 2                                               \\
+                                          & \sum_{j=1}^2 x_{ij} + x_{i+1j} \geq 2y_i, \quad \forall i = 1, 2, ..., n-1                          \\
+                                          & x_{ij}+x_{i+1j} \geq 2z_{ij}, \quad \forall i = 1, 2, ..., n-1, \quad \forall j = 1, 2              \\
+                                          & x_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n, \quad \forall j = 1, 2                         \\
+                                          & y_i \in \{0, 1\}, \quad \forall i = 1, 2, ..., n-1                                                  \\
+                                          & z_{ij} \in \{0, 1\}, \quad \forall i = 1, 2, ..., n-1, \quad \forall j = 1, 2
+                        \end{align*}
+            \end{enumerate}
+      \item (10 points) Consider the following $n$-item ordering problem. You purchase $n$ items from a supplier to sell to a market. The demands for item $i$ is $D_i$ per day (i.e., for all items the demand rates are constants), the ordering cost is $K$ per order, and the holding cost of item $i$ is $h_i$ per unit per day. You are allowed to choose an ordering cycle and $n$ order quantities for the $n$ products, but the supplier forces you to order all items with the same cycle. For example, suppose that $n = 2$, you are allowed order 5 and 10 units of items 1 and 2 every six days, but you are not allowed to order 5 units of item 1 every six days and 5 units of item 2 every seven days. Formulate a nonlinear program that minimizes the average daily total cost, which includes ordering and holding costs.\\
+            \textbf{Ans.}\\
+            Let $T$ be the ordering cycle. Then the nonlinear program is
+            \begin{align*}
+                  \min \quad   & \frac{K}{T} + \frac{1}{T}\sum_{t=1}^T\sum_{i=1}^n h_i*D_i*(T-t) \\
+                  \text{s.t. } & T \geq 1                                                        \\
+            \end{align*}
+\end{enumerate}
+\end{document}

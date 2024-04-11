@@ -1,0 +1,31 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+\title{Pre-lecture Problems for Lecture 4:\\ Integer Programming}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item[3.](10 points) A firm is considering importing some products to sell in a local market. The unit price and cost for product $i$ are $p_i$ and $C_i$, respectively. While the prices may be determined by the firm, the costs are given and fixed. For product $i$, the demand volume is $A_i - B_ip_i$, where $A_i$ and $B_i$ are all given. The fixed cost of importing product $i$ is $K_i$. In other words, the cost $K_i$ is incurred if and only if a positive amount of product $i$ is imported. Note that given the existence of the fixed cost, to maximize the firm’s profit it may be good to import only a subset of products. Formulate a mathematical program that can find a purchasing plan that maximizes the firm's profit. Determine whether your program is a linear program, a linear integer program, a nonlinear program, or a nonlinear integer program.\\
+    \textbf{Ans. }\\
+    The profit of importing product $i$ is $(p_i-C_i)(A_i - B_ip_i) - K_i$. Let $z_i$ be the binary variable that indicates whether the firm imports product $i$. $I$ is the set of products. The mathematical program is:
+    \begin{align*}
+        \max \quad & \sum_{i\in I}(p_i - C_i)(A_i - B_ip_i)z_i - K_iz_i \\
+        \text{s.t.} \quad
+                   & A_i - B_ip_i \geq 0 \quad \forall i\in I           \\
+                   & p_i \geq C_i \quad \forall i\in I                  \\
+                   & z_i \in \{0,1\} \quad \forall i\in I
+    \end{align*}
+    This is a nonlinear integer program.
+\end{enumerate}
+\end{document}
+

@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Pre-lecture Problems for Lecture 7:\\ Gradient Descent and Newton’s Method}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+\begin{enumerate}
+      \item (10 points) Let’s solve
+            \begin{equation*}
+                  \min_{x\in \mathbb{R}} f(x) = x^2_1 +x^2_2 - x_1x_2
+            \end{equation*}
+            \begin{enumerate}
+                  \item Find the gradient and Hessian of $f (x)$.\\
+                        \textbf{Ans.}\\
+                        gradient:
+                        \begin{equation*}
+                              \begin{bmatrix}
+                                    2x_1 -x_2 \\
+                                    2x_2 - x_1
+                              \end{bmatrix}
+                        \end{equation*}
+                        Hessian:
+                        \begin{equation*}
+                              \begin{bmatrix}
+                                    2  & -1 \\
+                                    -1 & 2
+                              \end{bmatrix}
+                        \end{equation*}
+                  \item Let $x^0 = (1, 2)$ be the initial solution. Run one iteration of gradient descent to get the next solution $x^G$. In that iteration, let the step size be that bringing you to the global minimum along the improving direction.\\
+                        \textbf{Ans.}
+                        \begin{itemize}
+                              \item Step 0: $x^0 = (1,2). f(x^0) = 3$
+                              \item Step 1:
+                                    \begin{itemize}
+                                          \item $\nabla f(x^0) = (0,3)$
+                                          \item $a_0 = \text{argmax}_{a\ge 0}f(x^0-a\nabla f(x^0)), \text{where} f(x^0-a\nabla f(x^0)) = (1,2-3a)=9a^2-9a+3$
+                                                It follows that $a_0 = \frac{1}{2}$
+                                          \item $x^1 = x^0 - a_0\nabla f(x^0) = (1,2) - \frac{1}{2}(0,3) = (1, \frac{1}{2})$. Note that $f(x^1) = \frac{3}{4}$\\
+                                                $x^G = (1, \frac{1}{2})$
+                                    \end{itemize}
+                        \end{itemize}
+                  \item Let $x^0 = (1, 2)$ be the initial solution. Run one iteration of Newton’s method to get the next solution $x^F$ .\\
+                        \textbf{Ans.}
+                        \begin{itemize}
+                              \item let
+                                    \begin{equation*}
+                                          f_Q(x) = f(x^0) + \nabla f(x^0)^T(x-x^0) + \frac{1}{2}(x-x^0)^T\nabla^2f(x^0)(x-x^0)
+                                    \end{equation*}
+                                    be the quadratic approximation of $f(x)$ at $x^0$.
+                                    Note that we use the Hessian $\nabla^2f(x^0)$
+                              \item We move from $x^0$ to $x^{1}$ by moving to the global minimum of the quadratic approximation:
+                                    \begin{equation*}
+                                          \nabla f(x^0) + \nabla^2f(x^0)(x^{1}-x^0) = 0,
+                                    \end{equation*}
+                                    i.e.
+                                    \begin{equation*}
+                                          x^{1} = x^0 - [\nabla^2f(x^0)]^{-1}\nabla f(x^0)=\begin{bmatrix}
+                                                1 \\
+                                                2
+                                          \end{bmatrix} - \begin{bmatrix}
+                                                2  & -1 \\
+                                                -1 & 2
+                                          \end{bmatrix}^{-1}\begin{bmatrix}
+                                                0 \\
+                                                3
+                                          \end{bmatrix}= \begin{bmatrix}
+                                                1 \\
+                                                2
+                                          \end{bmatrix} - \frac{1}{3}\begin{bmatrix}
+                                                2 & 1 \\
+                                                1 & 2
+                                          \end{bmatrix}\begin{bmatrix}
+                                                0 \\
+                                                3
+                                          \end{bmatrix}
+                                    \end{equation*}
+                        \end{itemize}
+                        $x^F = (0,0)$
+            \end{enumerate}
+\end{enumerate}
+\end{document}

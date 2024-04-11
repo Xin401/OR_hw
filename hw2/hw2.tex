@@ -9,7 +9,17 @@
 \usepackage{amssymb}
 \usepackage{mathrsfs,mathtools}
 \usepackage{multirow}
-\usepackage[english]{babel}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}% Draw tree
+
+\lstset{language=Python,
+  breaklines=true,
+  keywordstyle=\color{blue}\bfseries,
+  showstringspaces=false,
+  basicstyle=\footnotesize,
+  frame = single}
+
 
 \title{Operations Reasearch, Spring 2024 (112-2)\\ Homework 2}
 \author{B10705034 資管三\ 許文鑫}
@@ -129,13 +139,22 @@
             \begin{table}[H]
                   \centering
                   \begin{tabular}{ccccc|c}
-                        -1 & -3 & 0  & 0 & 0  & -10     \\
+                        -1 & -3 & 0  & 0 & 0  & 0       \\
                         \hline
-                        1  & 1  & -1 & 0 & 0  & $x_1=1$ \\
-                        1  & 2  & 0  & 1 & 0  & $x_4=2$ \\
+                        1  & 0  & -1 & 0 & 1  & $x_1=1$ \\
+                        0  & 0  & 1  & 1 & 1  & $x_4=2$ \\
                         0  & 1  & 0  & 0 & -1 & $x_2=3$ \\
                   \end{tabular}
+                  $\xrightarrow{\text{Adjust}}$
+                  \begin{tabular}{ccccc|c}
+                        0 & 0 & -1 & 0 & -2 & 10      \\
+                        \hline
+                        1 & 0 & -1 & 0 & 1  & $x_1=1$ \\
+                        0 & 0 & 1  & 1 & 1  & $x_4=2$ \\
+                        0 & 1 & 0  & 0 & -1 & $x_2=3$ \\
+                  \end{tabular}
             \end{table}
+            The optimal bfs is $(1,3,0,2,0)$, where the objective value is 10.
       \item (10 points; 5 points each) Consider the integer program
             \begin{align*}
                   \max \quad       & 2x_1 + 2x_2 + 5x_3 + 11x_4 + 10x_5+3x_6 -6x_7       \\
@@ -144,24 +163,147 @@
             \end{align*}
             which is a variant of the knapsack problem.
             \begin{enumerate}
-                  \item Use the greedy algorithm introduced in class to solve the linear relaxation of this integer program.
-                  \item Use the branch-and-bound algorithm to solve the original integer program. Depict the full branch-and-bound tree. Do not write down the solution process of each node; write down just an optimal solution and its objective value of each node.
+                  \item Use the greedy algorithm introduced in class to solve the linear relaxation of this integer program.\\
+                        \textbf{Ans.}\\
+                        The relaxation is:
+                        \begin{align*}
+                              \max \quad       & 2x_1 + 2x_2 + 5x_3 + 11x_4 + 10x_5+3x_6 -6x_7       \\
+                              \text{s.t.}\quad & x_1 + 4x_2 + 3x_3 + 5x_4 + 3x_5 -4x_6 + 2x_7 \leq 6 \\
+                                               & x_i \in [0,1] \quad \forall i = 1,...,7,
+                        \end{align*}
+                        Ane the ratio of the coefficients to the constraint is:
+                        \begin{equation*}
+                              \begin{aligned}
+                                    \frac{2}{1} = 2, \frac{2}{4} = 0.5, \frac{5}{3} = 1.67, \frac{11}{5} = 2.2, \frac{10}{3} = 3.33, \frac{3}{-4} = -0.75, \frac{-6}{2} = -3
+                              \end{aligned}
+                        \end{equation*}
+                        We pick from the largest ratio to the smallest ratio,and pick $x_6$ since its coefficeients is positive and the constraint is negative.
+                        \begin{equation*}
+                              x_1 = 1,x_2 = \frac{1}{4},x_4=1,x_5 = 1,x_6 = 1
+                        \end{equation*}
+                        and the objective value is 26.5.
+                  \item Use the branch-and-bound algorithm to solve the original integer program. Depict the full branch-and-bound tree. Do not write down the solution process of each node; write down just an optimal solution and its objective value of each node.\\
+                        \textbf{Ans.}\\
+                        \begin{tikzpicture}[
+                                    node distance=1.5cm,
+                                    node/.style={rectangle, draw, align=center},
+                              ]
+
+                              \node[node] (root) {$x^1 = (1,\frac{1}{4},0,1,1,1,0)$\\
+                                    $z^1 = 26.5$};
+                              \node[node, below =of root] (left) {$x^2 = (1,0,\frac{1}{3},1,1,1,0)$\\$z^2 = 26+\frac{5}{3}$};
+                              \node[node, below =of left](leftleft){$x^3 = (1,0,0,1,1,1,0)$\\$z^3 = 26$};
+
+                              \draw (root.south) -- (left.north) node[left,above] {$x_2 \leq 0$};
+                              \draw (left.south) -- (leftleft.north) node[left, above]{$x_3\leq 0$};
+                        \end{tikzpicture}
             \end{enumerate}
-      \item (15 points) There are m towns in a county. The county government is considering where to build at least p landfills in n potential locations. The distance between town i and location j is dij . The population at town i is hi. The government wants to maximize the average distances between each person and her/his closest landfill.
+            $x^3$ is optimal solution and $z^3 = 26$.
+      \item (15 points) There are $m$ towns in a county. The county government is considering where to build at least $p$ landfills in $n$ potential locations. The distance between town $i$ and location $j$ is $d_{ij}$ . The population at town $i$ is $h_i$. The government wants to maximize the average distances between each person and her/his closest landfill.
             \begin{enumerate}
                   \item (5 points) Formulate an integer program to achieve this goal. Use your own words to explain the formulation in details.\\
                         \textbf{Hint.} This problem has appeared in one lecture problem.\\
-                        \textbf{Note.} If you believe ChatGPT may help you explain the formulation, please feel free to use it. All you need to do is to make sure that the explanation is correct, precise, and concise.
+                        \textbf{Note.} If you believe ChatGPT may help you explain the formulation, please feel free to use it. All you need to do is to make sure that the explanation is correct, precise, and concise.\\
+                        \textbf{Ans.}\\
+                        Let $J =\{1,\dots,n\}$ be the potential locations and $I = \{1,\dots, m\}$ be the set of towns.\\
+                        Let $x_j = 1$ if a landfill is built at location $j$ and $x_j = 0$ otherwise.\\
+                        Let $w_i$ be the distance between town $i$ and its closest landfill.
+                        \begin{align}
+                              \max \quad       & \sum_{i=1}^m h_iw_i                                           \\
+                              \text{s.t.}\quad & \sum_{j=1}^n x_j \geq p                                       \\
+                                               & w_i \leq d_{ij}x_j + M_i(1-x_j) \quad \forall i \in I, j\in J \\
+                                               & x_j \in \{0,1\} \quad \forall j \in J,
+                        \end{align}
+                        Where $M_i$ is a large number. We can set $M_i = \max_{j\in J}\{d_{ij}\}$.\\
+                        (1) is the objective function to maximize the average distances between each person and her/his closest landfill.\\
+                        (2) is the constraint that the number of landfills built is at least $p$.\\
+                        (3) is the constraint that
+                        $w_i$ is the distance between town $i$ and its closest landfill. If $x_j = 1$, then $w_i \leq d_{ij}$, otherwise $w_i \leq M$.\\
+                        (4) is the constraint that $x_j$ is binary.
                   \item (10 points) Consider the two instances contained in the file "OR112-2 hw02 data.xlsx" (if you do not use Microsoft Excel, you may use Google Spreadsheet to open the file). In each sheet, which contains an instance, parameter symbols are in blue cells, indices are in orange cells, and parameter values are in green cells. For example, in instance $2$, $m = 20, n = 10, p = 5, h_2 = 28,$ and $d_{12,5} = 164$.\\
                         Write Python to invoke Gurobi Optimizer to solve the two instances. Submit your Python
-                        program by copying and pasting it into your answer. You should not hard code those param-
-                        eter values; please put the parameter values in a file and read data from the file to retrieve
+                        program by copying and pasting it into your answer. You should not hard code those parameter values; please put the parameter values in a file and read data from the file to retrieve
                         the values. There is no need to explain the program in your answer; just submit it. Moreover,
                         report the optimal solutions (and their objective values) you find for the two instances.\\
                         If you prefer, you may write your program in other languages; if you prefer, you may use
                         other optimization library (as long as you ensure that it generates a correct optimal solution).
                         Nevertheless, please understand that while we provide instruction on using Python to invoke
-                        Gurobi Optimizer, there is nothing we may help with other combinations
+                        Gurobi Optimizer, there is nothing we may help with other combinations.\\
+                        \textbf{Ans.}\\
+                        \textbf{Instance 1}:
+                        \begin{lstlisting}[language=Python]
+from gurobipy import *
+import numpy as np
+import pandas as pd
+sheet = "Problem 3 Instance 1"
+file = "OR112-2_hw02_data.xlsx"
+model = Model(sheet)
+
+m = pd.read_excel(file,usecols="B:B",nrows=1,sheet_name=sheet)
+m = int(m.columns.item())
+n = pd.read_excel(file,usecols="B:B",skiprows=range(1),nrows=1,sheet_name=sheet)
+n = int(n.columns.item())
+p = pd.read_excel(file,usecols="B:B",skiprows=range(2),nrows=1,sheet_name=sheet)
+p = int(p.columns.item())
+
+d = pd.read_excel(file,usecols="E:"+chr(ord('E')+n-1),skiprows=range(4),nrows=m,sheet_name=sheet)
+d = d.to_numpy()
+
+h = pd.read_excel(file,usecols="B:B",skiprows=range(4),nrows=m,sheet_name=sheet)
+h = h.to_numpy()
+                        \end{lstlisting}
+                        Optimal solution:
+                        \begin{align*}
+                               & x_1 = 1,x_2 = 1,x_3 = 1,x_4 = 0,x_5 = 0              \\
+                               & w_1 = 76, w_2 = 108, w_3 = 30, w_4 = 107, w_5 = 66,  \\
+                               & w_6 = 121, w_7 = 29, w_8 = 95, w_9 = 56, w_{10} = 30
+                        \end{align*}
+                        Objective value:  $39027$\\
+                        \textbf{Instance 2}:
+                        \begin{lstlisting}[language=Python]
+from gurobipy import *
+import numpy as np
+import pandas as pd
+sheet = "Problem 3 Instance 2"
+file = "OR112-2_hw02_data.xlsx"
+model = Model(sheet)
+
+m = pd.read_excel(file,usecols="B:B",nrows=1,sheet_name=sheet)
+m = int(m.columns.item())
+n = pd.read_excel(file,usecols="B:B",skiprows=range(1),nrows=1,sheet_name=sheet)
+n = int(n.columns.item())
+p = pd.read_excel(file,usecols="B:B",skiprows=range(2),nrows=1,sheet_name=sheet)
+p = int(p.columns.item())
+
+d = pd.read_excel(file,usecols="E:"+chr(ord('E')+n-1),skiprows=range(4),nrows=m,sheet_name=sheet)
+d = d.to_numpy()
+
+h = pd.read_excel(file,usecols="B:B",skiprows=range(4),nrows=m,sheet_name=sheet)
+h = h.to_numpy()
+x = model.addVars(n,vtype=GRB.BINARY, name="x")
+w = model.addVars(m,vtype=GRB.INTEGER, name="w")
+
+model.setObjective(quicksum(h[i][0]*w[i] for i in range(m)), GRB.MAXIMIZE)
+
+model.addConstr(quicksum(x[i] for i in range(n)) >= p)
+for i in range(m):
+    for j in range(n):
+        model.addConstr(w[i] <= d[i][j]*x[j]+np.max(d[i])*(1-x[j]))
+
+model.optimize()
+for v in model.getVars():
+    print('%s %g' % (v.varName, v.x))
+                        \end{lstlisting}
+                        Optimal solution:
+                        \begin{align*}
+                               & x_1 = 1, x_2 = 0, x_3 = 1, x_4 = 0, x_5 = 1,                      \\
+                               & x_6 = 0, x_7 = 1, x_8 = 1, x_9 = 0, x_{10} = 0.                   \\
+                               & w_1 = 55, w_2 = 71, w_3 = 50, w_4 = 63, w_5 = 47,                 \\
+                               & w_6 = 135, w_7 = 23, w_8 = 12, w_9 = 104, w_{10} = 19             \\
+                               & w_{11} = 88, w_{12} = 27, w_{13} = 50, w_{14} = 37, w_{15} = 61,  \\
+                               & w_{16} = 30, w_{17} = 28, w_{18} = 38, w_{19} = 98, w_{20} = 109.
+                        \end{align*}
+                        Objective value:  $68665$
             \end{enumerate}
       \item (35 points) Continue from Problem 3.
             \begin{enumerate}

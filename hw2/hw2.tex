@@ -645,11 +645,68 @@ print(objfunc(h,d,tmp_x))
                                            &                                                                        \\
                                            & a_0 =           \text{argmin}_{a>0}f(x^0-a\nabla f(x^0)),\text{where } \\
                                            & f(x^0-a\nabla f(x^0)) = f(-6a,-a)                                      \\
-                                           & = 134a^2+6e^{-6a}-a
+                                           & = 134a^2+6e^{-6a}-a, a_0=0.0846\\
+                                           & \text{Therefore, } x^1 = \begin{bmatrix}
+                                                -0.5176\\
+                                                -0.0846
+                                           \end{bmatrix}, \text{and }f(x^1) = 4.48429
                                     \end{align*},
-                                    since we have $-x = e^x$,
+                                    
                         \end{itemize}
-                  \item Start from $(x_1, x_2) = (0, 0)$ to run one iteration of the Newton’s method to solve this instance. Write down the detailed process of the iteration.
+                        Use python to solve $a$:
+                        \begin{lstlisting}
+from scipy.optimize import fsolve
+import numpy as np
+
+def func(a):
+    return 268*a - 36*np.exp(-6*a) - 1
+
+initial_guess = 0.1
+solution = fsolve(func, initial_guess)
+
+print(f"The solution is a = {solution[0]}")
+                        \end{lstlisting}
+                  \item Start from $(x_1, x_2) = (0, 0)$ to run one iteration of the Newton's method to solve this instance. Write down the detailed process of the iteration.\\
+                  \textbf{Ans.}
+                  \begin{equation*}
+                        \text{Hessian:} 
+                        \begin{bmatrix}
+                              6+6e^{x_1} & 4\\
+                              4 & 4
+                        \end{bmatrix}
+                  \end{equation*}
+                  \begin{align*}
+                        x^1 = x^0 - [\nabla^{2}f(x^0)\nabla]^{-1} f(x^0) = \begin{bmatrix}
+                              0\\
+                              0
+                        \end{bmatrix} - \begin{bmatrix}
+                              0.625\\
+                              -0.375
+                        \end{bmatrix} = \begin{bmatrix}
+                              -0.625\\
+                              0.375
+                        \end{bmatrix}
+                  \end{align*}
+                  Use python to solve:
+                  \begin{lstlisting}
+import numpy as np
+
+def objfunc(x_1,x_2):
+    return 3*pow(x_1,2) + 2*pow(x_2,2) +4*x_1*x_2 +6*np.exp(x_1) + x_2
+
+x_1 = 0
+x_2 = 0
+
+hessian = np.array([[6 + 6*np.exp(x_1), 4], [4, 4]])
+gradient = np.array([6*x_1 + 4*x_2 + 6*np.exp(x_1), 4*x_2 + 4*x_1+1])
+
+inv_matrix = np.linalg.inv(hessian)
+x = np.dot(inv_matrix, gradient)
+print(x)
+
+print(objfunc(x_1-x[0],x_2-x[1]))
+                  \end{lstlisting}
+                  The objective value is 4.1022.
             \end{enumerate}
 \end{enumerate}
 \end{document}

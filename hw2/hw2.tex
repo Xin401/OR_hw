@@ -351,9 +351,9 @@ def objfunc(h,d,x):
                         \end{lstlisting}
                         Solution:
                         \begin{align*}
-                              &x_1 = 1, x_2 = 1, x_3 = 1, x_4 = 0, x_5 = 0.\\
-                              &w_1 = 76, w_2 = 108, w_3 = 30, w_4 = 107, w_5 = 66,\\ 
-                              &w_6 = 121, w_7 = 29, w_8 = 95, w_9 = 56, w_{10} = 30
+                               & x_1 = 1, x_2 = 1, x_3 = 1, x_4 = 0, x_5 = 0.         \\
+                               & w_1 = 76, w_2 = 108, w_3 = 30, w_4 = 107, w_5 = 66,  \\
+                               & w_6 = 121, w_7 = 29, w_8 = 95, w_9 = 56, w_{10} = 30
                         \end{align*}
                         Objective value:  $39027$\\
                         \textbf{Instance 2:}
@@ -395,16 +395,16 @@ def objfunc(h,d,x):
       print(x)
       print(objfunc(h,d,x))    
                   \end{lstlisting}
-                  Solution:
-                  \begin{align*}
-                        &x_1 = 0, x_2 = 1, x_3 = 0, x_4 = 1, x_5 = 0,\\
-                        &x_6 = 1, x_7 = 0, x_8 = 0, x_9 = 1, x_{10} = 1.\\
-                        &w_1 = 48, w_2 = 37, w_3 = 67, w_4 = 45, w_5 = 87,\\
-                        &w_6 = 55, w_7 = 76, w_8 = 108, w_9 = 26, w_{10} = 107,\\
-                        &w_{11} = 37, w_{12} = 121, w_{13} = 29, w_{14} = 88, w_{15} = 56,\\
-                        &w_{16} = 85, w_{17} = 100, w_{18} = 71, w_{19} = 7, w_{20} = 23.
-                  \end{align*}
-                  Objective value:  $65364$                             
+                        Solution:
+                        \begin{align*}
+                               & x_1 = 0, x_2 = 1, x_3 = 0, x_4 = 1, x_5 = 0,                      \\
+                               & x_6 = 1, x_7 = 0, x_8 = 0, x_9 = 1, x_{10} = 1.                   \\
+                               & w_1 = 48, w_2 = 37, w_3 = 67, w_4 = 45, w_5 = 87,                 \\
+                               & w_6 = 55, w_7 = 76, w_8 = 108, w_9 = 26, w_{10} = 107,            \\
+                               & w_{11} = 37, w_{12} = 121, w_{13} = 29, w_{14} = 88, w_{15} = 56, \\
+                               & w_{16} = 85, w_{17} = 100, w_{18} = 71, w_{19} = 7, w_{20} = 23.
+                        \end{align*}
+                        Objective value:  $65364$
                   \item (10 points) Consider another heuristic algorithm designed for the landfill location problem
                         based on linear relaxation. The idea is simple. Given an instance, first we solve its linear
                         relaxation to obtain a probably fractional LP-optimal solution $x^{LP}$ . We then pick the largest
@@ -467,32 +467,32 @@ for i in range(p):
 print(tmp_x)
 print(objfunc(h,d,tmp_x))
                         \end{lstlisting}
-                  We first have $x^{LP}$:
-                  \begin{align*}
-                        &x_{0} = 0.5949548088466156,\\ 
-                        &x_{1} = 1.0,\\
-                        &x_{2} = 0.7487071751777633, \\
-                        &x_{3} = 0.38062725090036004,\\
-                        &x_{4} = 0.2757107650752609.
-                  \end{align*}
-                  Then apply the heuristic algorith, get
-                  $\bar{x}$:
-                  \begin{align*}
-                        &x_{0} = 1,\\ 
-                        &x_{1} = 1,\\
-                        &x_{2} = 1, \\
-                        &x_{3} = 0,\\
-                        &x_{4} = 0.
-                  \end{align*}
-                  So the solution is:
-                  \begin{align*}
-                        &x_1 = 1, x_2 = 1, x_3 = 1, x_4 = 0, x_5 = 0.\\
-                              &w_1 = 76, w_2 = 108, w_3 = 30, w_4 = 107, w_5 = 66,\\ 
-                              &w_6 = 121, w_7 = 29, w_8 = 95, w_9 = 56, w_{10} = 30
-                  \end{align*}
-                  Objective value:  $39027$\\
-                  \textbf{Instance 2:}
-                  \begin{lstlisting}[language=Python]
+                        We first have $x^{LP}$:
+                        \begin{align*}
+                               & x_{0} = 0.5949548088466156,  \\
+                               & x_{1} = 1.0,                 \\
+                               & x_{2} = 0.7487071751777633,  \\
+                               & x_{3} = 0.38062725090036004, \\
+                               & x_{4} = 0.2757107650752609.
+                        \end{align*}
+                        Then apply the heuristic algorith, get
+                        $\bar{x}$:
+                        \begin{align*}
+                               & x_{0} = 1, \\
+                               & x_{1} = 1, \\
+                               & x_{2} = 1, \\
+                               & x_{3} = 0, \\
+                               & x_{4} = 0.
+                        \end{align*}
+                        So the solution is:
+                        \begin{align*}
+                               & x_1 = 1, x_2 = 1, x_3 = 1, x_4 = 0, x_5 = 0.         \\
+                               & w_1 = 76, w_2 = 108, w_3 = 30, w_4 = 107, w_5 = 66,  \\
+                               & w_6 = 121, w_7 = 29, w_8 = 95, w_9 = 56, w_{10} = 30
+                        \end{align*}
+                        Objective value:  $39027$\\
+                        \textbf{Instance 2:}
+                        \begin{lstlisting}[language=Python]
 from gurobipy import *
 import numpy as np
 import pandas as pd
@@ -548,50 +548,107 @@ print(objfunc(h,d,tmp_x))
                         \end{lstlisting}
                         We first have $x^{LP}$:
                         \begin{align*}
-                              &x_{1} = 0.47636549575898146,\\ 
-                              &x_{2} = 0.444908809010339,\\ 
-                              &x_{3} = 0.433059541599074,\\ 
-                              &x_{4} = 0.4390081616759844,\\ 
-                              &x_{5} = 0.6125695279199782,\\ 
-                              &x_{6} = 0.5543705001160574,\\ 
-                              &x_{7} = 0.47559217514898305,\\ 
-                              &x_{8} = 0.36340660833488725,\\ 
-                              &x_{9} = 0.4909176989787073,\\ 
-                              &x_{10} = 0.7098014814570079.
+                               & x_{1} = 0.47636549575898146, \\
+                               & x_{2} = 0.444908809010339,   \\
+                               & x_{3} = 0.433059541599074,   \\
+                               & x_{4} = 0.4390081616759844,  \\
+                               & x_{5} = 0.6125695279199782,  \\
+                               & x_{6} = 0.5543705001160574,  \\
+                               & x_{7} = 0.47559217514898305, \\
+                               & x_{8} = 0.36340660833488725, \\
+                               & x_{9} = 0.4909176989787073,  \\
+                               & x_{10} = 0.7098014814570079.
                         \end{align*}
                         Then apply the heuristic algorith, get
                         $\bar{x}$:
                         \begin{align*}
-                              &x_1 = 1,\\
-                              &x_2 = 0,\\
-                              &x_3 = 0,\\
-                              &x_4 = 0,\\
-                              &x_5 = 1,\\
-                              &x_6 = 1,\\
-                              &x_7 = 0,\\
-                              &x_8 = 0,\\
-                              &x_9 = 1,\\
-                              &x_{10} = 1.
+                               & x_1 = 1,    \\
+                               & x_2 = 0,    \\
+                               & x_3 = 0,    \\
+                               & x_4 = 0,    \\
+                               & x_5 = 1,    \\
+                               & x_6 = 1,    \\
+                               & x_7 = 0,    \\
+                               & x_8 = 0,    \\
+                               & x_9 = 1,    \\
+                               & x_{10} = 1.
                         \end{align*}
                         So the solution is:
                         \begin{align*}
-                              &w_{1} = 79, w_{2} = 71, w_{3} = 50, w_{4} = 63, w_{5} = 87,\\ 
-                              &w_{6} = 55, w_{7} = 71, w_{8} = 41, w_{9} = 53, w_{10} = 62,\\
-                              &w_{11} = 37, w_{12} = 27, w_{13} = 91, w_{14} = 81, w_{15} = 77,\\
-                              &w_{16} = 30, w_{17} = 76, w_{18} = 38, w_{19} = 38, w_{20} = 23.
+                               & w_{1} = 79, w_{2} = 71, w_{3} = 50, w_{4} = 63, w_{5} = 87,      \\
+                               & w_{6} = 55, w_{7} = 71, w_{8} = 41, w_{9} = 53, w_{10} = 62,     \\
+                               & w_{11} = 37, w_{12} = 27, w_{13} = 91, w_{14} = 81, w_{15} = 77, \\
+                               & w_{16} = 30, w_{17} = 76, w_{18} = 38, w_{19} = 38, w_{20} = 23.
                         \end{align*}
                         Objective value:  $63044$
-                  \item (5 points) Let $z_k^G$ be the objective value of the solution found by the greedy algorithm in Part (a) for instance $k \in \{1,2\}$. Similarly, let $z_k^R$ be that by the heuristic algorithm in Part (b) for instance $k \in \{1, 2\}$. For each of the two instances, report $z_k^{IP}$ , $z_k^{LP}$ , $z_k^G$, $z_k^R$, and the four percentage optimality gaps (each algorithm has two optimality gaps, one uses $z_k^{IP}$ and one uses $z_k^{LP}$ ). In average, which algorithm performs better in these two instances?
+                  \item (5 points) Let $z_k^G$ be the objective value of the solution found by the greedy algorithm in Part (a) for instance $k \in \{1,2\}$. Similarly, let $z_k^R$ be that by the heuristic algorithm in Part (b) for instance $k \in \{1, 2\}$. For each of the two instances, report $z_k^{IP}$ , $z_k^{LP}$ , $z_k^G$, $z_k^R$, and the four percentage optimality gaps (each algorithm has two optimality gaps, one uses $z_k^{IP}$ and one uses $z_k^{LP}$ ). In average, which algorithm performs better in these two instances?\\
+                        \textbf{Ans.}\\
+                        \textbf{Instance 1:}
+                        \begin{equation*}
+                              z^{IP}_k = 39072, z^{LP} _k= 53434.86724, z^{G}_k = 39027, z^{R}_k = 39027
+                        \end{equation*}
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{c|c|c|}
+                                    error     & $z^{IP}_k$ & $z^{LP}_k$ \\
+                                    \hline
+                                    $z^{G}_k$ & 0          & 0.2696     \\
+                                    \hline
+                                    $z^{R}_k$ & 0          & 0.2696     \\
+                              \end{tabular}
+                        \end{table}
+                        \textbf{Instance 2:}
+                        \begin{equation*}
+                              z^{IP}_k = 68665, z^{LP}_k = 117810.4228, z^{G}_k = 65364, z^{R}_k = 63044
+                        \end{equation*}
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{c|c|c|}
+                                    error     & $z^{IP}_k$ & $z^{LP}_k$ \\
+                                    \hline
+                                    $z^{G}_k$ & 0.0481     & 0.4452     \\
+                                    \hline
+                                    $z^{R}_k$ & 0.0819     & 0.4649     \\
+                              \end{tabular}
+                        \end{table}
+                        In average, the greedy algorithm performs better.
                   \item (10 points) Comment on the time complexity (with the big-O notation) and performance of the two heuristic algorithms. If you need to solve the landfill location problem with $m = 500, n = 100, \text{and } p = 20,$ which algorithm do you prefer? Why?\\
-                        \textbf{Hint.} The complexity of using the simplex method to solve a linear program with $m$ constraints in roughly $O(m^3).$ Though the way Gurobi Optimizer solves a linear program is more complicated than just running the classic simplex method, the complexity is pretty much at the same order. To answer this problem, please use the $O(m^3)$ fact directly.
+                        \textbf{Hint.} The complexity of using the simplex method to solve a linear program with $m$ constraints in roughly $O(m^3).$ Though the way Gurobi Optimizer solves a linear program is more complicated than just running the classic simplex method, the complexity is pretty much at the same order. To answer this problem, please use the $O(m^3)$ fact directly.\\
+                        \textbf{Ans.}\\
+                        I will choose greedy algorithm.\\
+                        The time complexity of the greedy algorithm is $O(n^4m)$, ant the time complexity of linear relaxation is $O(n^3m^3)$ since there's roughly $nm$ constraints.\\
+                        So the greedy algorithm is not only faster but also performs quite well.
             \end{enumerate}
       \item (20 points; 10 points each) Consider the following nonlinear program
             \begin{equation*}
-                  \min 3x_1^2 + 2x_2^2 + 4x_1x_2 +6e^{x_1}+x2
+                  \min 3x_1^2 + 2x_2^2 + 4x_1x_2 +6e^{x_1}+x_2
             \end{equation*}
             Later when needed, use numerical solutions rather than analytical solutions. For example, when solving $-x = e^x$, using any calculator or software to find $x = -0.567$ as a numerical solution is good enough. There is no need to analytically solve $-x = e^x$.
             \begin{enumerate}
-                  \item Start from $(x_1,x_2) = (0,0)$ to run one iteration of the gradient descent method to solve this instance. In this iteration, move to the global minimum along the direction you choose. Write down the detailed process of the iteration.
+                  \item Start from $(x_1,x_2) = (0,0)$ to run one iteration of the gradient descent method to solve this instance. In this iteration, move to the global minimum along the direction you choose. Write down the detailed process of the iteration.\\
+                        \textbf{Ans.}\\
+                        We have:
+                        \begin{equation*}
+                              \nabla f(x) = \begin{bmatrix}
+                                    6x_1+4x_2 + 6e^{x_1} \\
+                                    4x_2+ 4x_1+1
+                              \end{bmatrix}
+                        \end{equation*}
+                        \begin{itemize}
+                              \item Step 0: $x^0 = (0,0), f(x^0) = 6$
+                              \item Step 1:
+                                    \begin{align*}
+                                           & \nabla f(x^0) = \begin{bmatrix}
+                                                                   6 \\
+                                                                   1
+                                                             \end{bmatrix}
+                                           &                                                                        \\
+                                           & a_0 =           \text{argmin}_{a>0}f(x^0-a\nabla f(x^0)),\text{where } \\
+                                           & f(x^0-a\nabla f(x^0)) = f(-6a,-a)                                      \\
+                                           & = 134a^2+6e^{-6a}-a
+                                    \end{align*},
+                                    since we have $-x = e^x$,
+                        \end{itemize}
                   \item Start from $(x_1, x_2) = (0, 0)$ to run one iteration of the Newton’s method to solve this instance. Write down the detailed process of the iteration.
             \end{enumerate}
 \end{enumerate}

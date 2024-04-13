@@ -60,8 +60,11 @@
                                     $(x_1,x_2,x_3)$        & Yes                       & 3                                    & 3     & 2     & 0     & 0     \\
                                     $(x_1,x_2,x_4)$        & Yes                       & 1                                    & 3     & 0     & 2     & 0     \\
                                     $(x_1,x_2,x_5)$        & No                        & -1                                   & 5     & 0     & 0     & 2     \\
+                                    $(x_1,x_3,x_5)$        & No                        & 9                                    & 0     & 5     & 0     & -3    \\
+                                    $(x_1,x_4,x_5)$        & No                        & 4                                    & 0     & 0     & 5     & -3    \\
                                     $(x_2,x_3,x_4)$        & No                        & 0                                    & 3     & -1    & 3     & 0     \\
-                                    $(x_2,x_3,x_5)$        & Yes                       & 0                                    & 9     & 5     & 0     & 6     \\
+                                    $(x_2,x_3,x_5)$        & Yes                       & 0                                    & 4.5   & 0.5   & 0     & 1.5   \\
+                                    $(x_2,x_4,x_5)$        & Yes                       & 0                                    & 4     & 0     & 1     & 1     \\
                                     $(x_3,x_4,x_5)$        & No                        & 0                                    & 0     & -4    & 9     & -3    \\
                                     \hline
                               \end{tabular}
@@ -179,24 +182,15 @@
                         \end{equation*}
                         We pick from the largest ratio to the smallest ratio,and pick $x_6$ since its coefficeients is positive and the constraint is negative.
                         \begin{equation*}
-                              x_1 = 1,x_2 = \frac{1}{4},x_4=1,x_5 = 1,x_6 = 1
+                              x_1 = 1,x_2 = 0,x_3 = \frac{1}{3},x_4=1,x_5 = 1,x_6 = 1, x_7 = 0
                         \end{equation*}
-                        and the objective value is 26.5.
+                        and the objective value is $\frac{83}{3}$.
                   \item Use the branch-and-bound algorithm to solve the original integer program. Depict the full branch-and-bound tree. Do not write down the solution process of each node; write down just an optimal solution and its objective value of each node.\\
                         \textbf{Ans.}\\
-                        \begin{tikzpicture}[
-                                    node distance=1.5cm,
-                                    node/.style={rectangle, draw, align=center},
-                              ]
-
-                              \node[node] (root) {$x^1 = (1,\frac{1}{4},0,1,1,1,0)$\\
-                                    $z^1 = 26.5$};
-                              \node[node, below =of root] (left) {$x^2 = (1,0,\frac{1}{3},1,1,1,0)$\\$z^2 = 26+\frac{5}{3}$};
-                              \node[node, below =of left](leftleft){$x^3 = (1,0,0,1,1,1,0)$\\$z^3 = 26$};
-
-                              \draw (root.south) -- (left.north) node[left,above] {$x_2 \leq 0$};
-                              \draw (left.south) -- (leftleft.north) node[left, above]{$x_3\leq 0$};
-                        \end{tikzpicture}
+                        \begin{figure}
+                              \centering
+                              \includegraphics[scale=0.5]{2_b.png}
+                        \end{figure}
             \end{enumerate}
             $x^3$ is optimal solution and $z^3 = 26$.
       \item (15 points) There are $m$ towns in a county. The county government is considering where to build at least $p$ landfills in $n$ potential locations. The distance between town $i$ and location $j$ is $d_{ij}$ . The population at town $i$ is $h_i$. The government wants to maximize the average distances between each person and her/his closest landfill.
@@ -212,14 +206,16 @@
                               \max \quad       & \sum_{i=1}^m h_iw_i                                           \\
                               \text{s.t.}\quad & \sum_{j=1}^n x_j \geq p                                       \\
                                                & w_i \leq d_{ij}x_j + M_i(1-x_j) \quad \forall i \in I, j\in J \\
-                                               & x_j \in \{0,1\} \quad \forall j \in J,
+                                               & x_j \in \{0,1\} \quad \forall j \in J,                        \\
+                                               & w_i \geq 0 \quad \forall i \in I
                         \end{align}
-                        Where $M_i$ is a large number. We can set $M_i = \max_{j\in J}\{d_{ij}\}$.\\
+                        Where $M_i$ is a large number. We can set $M_i = \max_{j\in J}\{d_{ij}\}\quad \forall i \in I$.\\
                         (1) is the objective function to maximize the average distances between each person and her/his closest landfill.\\
                         (2) is the constraint that the number of landfills built is at least $p$.\\
                         (3) is the constraint that
                         $w_i$ is the distance between town $i$ and its closest landfill. If $x_j = 1$, then $w_i \leq d_{ij}$, otherwise $w_i \leq M$.\\
                         (4) is the constraint that $x_j$ is binary.
+                        (5) is the constraint that $w_i$ is non-negative.
                   \item (10 points) Consider the two instances contained in the file "OR112-2 hw02 data.xlsx" (if you do not use Microsoft Excel, you may use Google Spreadsheet to open the file). In each sheet, which contains an instance, parameter symbols are in blue cells, indices are in orange cells, and parameter values are in green cells. For example, in instance $2$, $m = 20, n = 10, p = 5, h_2 = 28,$ and $d_{12,5} = 164$.\\
                         Write Python to invoke Gurobi Optimizer to solve the two instances. Submit your Python
                         program by copying and pasting it into your answer. You should not hard code those parameter values; please put the parameter values in a file and read data from the file to retrieve
@@ -589,12 +585,12 @@ print(objfunc(h,d,tmp_x))
                         \end{equation*}
                         \begin{table}[H]
                               \centering
-                              \begin{tabular}{c|c|c|}
-                                    error     & $z^{IP}_k$ & $z^{LP}_k$ \\
+                              \begin{tabular}{c|c|c|c}
+                                    error     & $z^{IP}_k$ & $z^{LP}_k$ & average \\
                                     \hline
-                                    $z^{G}_k$ & 0          & 0.2696     \\
+                                    $z^{G}_k$ & 0          & 0.2696     & 0.1348  \\
                                     \hline
-                                    $z^{R}_k$ & 0          & 0.2696     \\
+                                    $z^{R}_k$ & 0          & 0.2696     & 0.1348  \\
                               \end{tabular}
                         \end{table}
                         \textbf{Instance 2:}
@@ -603,12 +599,12 @@ print(objfunc(h,d,tmp_x))
                         \end{equation*}
                         \begin{table}[H]
                               \centering
-                              \begin{tabular}{c|c|c|}
-                                    error     & $z^{IP}_k$ & $z^{LP}_k$ \\
+                              \begin{tabular}{c|c|c|c}
+                                    error     & $z^{IP}_k$ & $z^{LP}_k$ & average \\
                                     \hline
-                                    $z^{G}_k$ & 0.0481     & 0.4452     \\
+                                    $z^{G}_k$ & 0.0481     & 0.4452     & 0.24665 \\
                                     \hline
-                                    $z^{R}_k$ & 0.0819     & 0.4649     \\
+                                    $z^{R}_k$ & 0.0819     & 0.4649     & 0.2734  \\
                               \end{tabular}
                         \end{table}
                         In average, the greedy algorithm performs better.
@@ -616,7 +612,7 @@ print(objfunc(h,d,tmp_x))
                         \textbf{Hint.} The complexity of using the simplex method to solve a linear program with $m$ constraints in roughly $O(m^3).$ Though the way Gurobi Optimizer solves a linear program is more complicated than just running the classic simplex method, the complexity is pretty much at the same order. To answer this problem, please use the $O(m^3)$ fact directly.\\
                         \textbf{Ans.}\\
                         I will choose greedy algorithm.\\
-                        The time complexity of the greedy algorithm is $O(n^4m)$, ant the time complexity of linear relaxation is $O(n^3m^3)$ since there's roughly $nm$ constraints.\\
+                        The time complexity of the greedy algorithm is $O((n-p)n^2m)$, ant the time complexity of linear relaxation is $O(n^3m^3)$ since there's roughly $nm$ constraints.\\
                         So the greedy algorithm is not only faster but also performs quite well.
             \end{enumerate}
       \item (20 points; 10 points each) Consider the following nonlinear program
@@ -645,13 +641,13 @@ print(objfunc(h,d,tmp_x))
                                            &                                                                        \\
                                            & a_0 =           \text{argmin}_{a>0}f(x^0-a\nabla f(x^0)),\text{where } \\
                                            & f(x^0-a\nabla f(x^0)) = f(-6a,-a)                                      \\
-                                           & = 134a^2+6e^{-6a}-a, a_0=0.0846\\
+                                           & = 134a^2+6e^{-6a}-a, a_0=0.0846                                        \\
                                            & \text{Therefore, } x^1 = \begin{bmatrix}
-                                                -0.5176\\
-                                                -0.0846
-                                           \end{bmatrix}, \text{and }f(x^1) = 4.48429
+                                                                            -0.5076 \\
+                                                                            -0.0846
+                                                                      \end{bmatrix}, \text{and }f(x^1) = 4.4861
                                     \end{align*},
-                                    
+
                         \end{itemize}
                         Use python to solve $a$:
                         \begin{lstlisting}
@@ -667,28 +663,28 @@ solution = fsolve(func, initial_guess)
 print(f"The solution is a = {solution[0]}")
                         \end{lstlisting}
                   \item Start from $(x_1, x_2) = (0, 0)$ to run one iteration of the Newton's method to solve this instance. Write down the detailed process of the iteration.\\
-                  \textbf{Ans.}
-                  \begin{equation*}
-                        \text{Hessian:} 
-                        \begin{bmatrix}
-                              6+6e^{x_1} & 4\\
-                              4 & 4
-                        \end{bmatrix}
-                  \end{equation*}
-                  \begin{align*}
-                        x^1 = x^0 - [\nabla^{2}f(x^0)\nabla]^{-1} f(x^0) = \begin{bmatrix}
-                              0\\
-                              0
-                        \end{bmatrix} - \begin{bmatrix}
-                              0.625\\
-                              -0.375
-                        \end{bmatrix} = \begin{bmatrix}
-                              -0.625\\
-                              0.375
-                        \end{bmatrix}
-                  \end{align*}
-                  Use python to solve:
-                  \begin{lstlisting}
+                        \textbf{Ans.}
+                        \begin{equation*}
+                              \text{Hessian:}
+                              \begin{bmatrix}
+                                    6+6e^{x_1} & 4 \\
+                                    4          & 4
+                              \end{bmatrix}
+                        \end{equation*}
+                        \begin{align*}
+                              x^1 = x^0 - [\nabla^{2}f(x^0)\nabla]^{-1} f(x^0) = \begin{bmatrix}
+                                                                                       0 \\
+                                                                                       0
+                                                                                 \end{bmatrix} - \begin{bmatrix}
+                                                                                                       0.625 \\
+                                                                                                       -0.375
+                                                                                                 \end{bmatrix} = \begin{bmatrix}
+                                                                                                                       -0.625 \\
+                                                                                                                       0.375
+                                                                                                                 \end{bmatrix}
+                        \end{align*}
+                        Use python to solve:
+                        \begin{lstlisting}
 import numpy as np
 
 def objfunc(x_1,x_2):
@@ -706,7 +702,7 @@ print(x)
 
 print(objfunc(x_1-x[0],x_2-x[1]))
                   \end{lstlisting}
-                  The objective value is 4.1022.
+                        The objective value is 4.1022.
             \end{enumerate}
 \end{enumerate}
 \end{document}

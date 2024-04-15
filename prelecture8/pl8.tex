@@ -1,0 +1,166 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Pre-lecture Problems for Lecture 8:\\ Linear Programming Duality}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+\begin{enumerate}
+      \item (10 points; 2 points each) Consider a primal LP\\
+            \textbf{Ans.}
+            \begin{align*}
+                  \max \quad        & 5x_1 + 3x_2           \\
+                  \text{s.t.} \quad & x_1 + x_2 \leq 8      \\
+                                    & x_1 +2x_2 \leq 10     \\
+                                    & x_1 \geq 0,x_2 \geq 0
+            \end{align*}
+            \begin{enumerate}
+                  \item Find a primal optimal solution $\bar{x}$ by the simplex method.\\
+                        \textbf{Ans.}
+                        The standard form of the primal LP is
+                        \begin{align*}
+                              \max \quad       & 5x_1 + 3x_2                \\
+                              \text{s.t.}\quad & x_1 + x_2 + x_3 = 8        \\
+                                               & x_1 + 2x_2 + x_4 = 10      \\
+                                               & x_i \geq 0 \quad i=1,2,3,4
+                        \end{align*}
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{cccc|c}
+                                    -5 & -3 & 0 & 0 & 0        \\
+                                    \hline
+                                    1  & 1  & 1 & 0 & $x_3=8$  \\
+                                    1  & 2  & 0 & 1 & $x_4=10$ \\
+                              \end{tabular}$\rightarrow$
+                              \begin{tabular}{cccc|c}
+                                    0 & 2 & 5  & 0 & 40      \\
+                                    \hline
+                                    1 & 1 & 1  & 0 & $x_1=8$ \\
+                                    0 & 1 & -1 & 1 & $x_4=2$ \\
+                              \end{tabular}
+                        \end{table}
+                        The optimal solution is $(8,0,0,2)$ with the optimal value 40.
+                  \item Formulate the dual LP.\\
+                        \textbf{Ans.}
+                        \begin{align*}
+                              \min \quad        & 8y_1 + 10y_2          \\
+                              \text{s.t.} \quad & y_1 + y_2 \geq 5      \\
+                                                & y_1 + 2y_2 \geq 3     \\
+                                                & y_1 \geq 0,y_2 \geq 0
+                        \end{align*}
+                  \item Solve the dual LP in any way you like to get a dual optimal solution  $\bar{y}$. Show that $c^T  \bar{x} =  \bar{y}^Tb$, where $c$ and $b$ represent the primal and dual objective coefficients.\\
+                        \textbf{Ans.}\\
+                        Phase-I:
+                        \begin{align*}
+                              \min \quad       & y_5+y_6                    \\
+                              \text{s.t.}\quad & y_1 + y_2 - y_3+y_5 = 5    \\
+                                               & y_1 + 2y_2 - y_4 +y_6= 3   \\
+                                               & y_i \geq 0 \quad i=1,2,3,4
+                        \end{align*}
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{cccccc|c}
+                                    0 & 0 & 0  & 0  & -1 & -1 & 0       \\
+                                    \hline
+                                    1 & 1 & -1 & 0  & 1  & 0  & $y_5=5$ \\
+                                    1 & 2 & 0  & -1 & 0  & 1  & $y_6=3$ \\
+                              \end{tabular}$\rightarrow$
+                              \begin{tabular}{cccccc|c}
+                                    2 & 3 & -1 & -1 & 0 & 0 & 8       \\
+                                    \hline
+                                    1 & 1 & -1 & 0  & 1 & 0 & $y_5=5$ \\
+                                    1 & 2 & 0  & -1 & 0 & 1 & $y_6=3$ \\
+                              \end{tabular}\\
+                              $\rightarrow$
+                              \begin{tabular}{ccccc|c}
+                                    0 & -1 & -1 & 1  & 0 & 2       \\
+                                    \hline
+                                    0 & -1 & -1 & 1  & 1 & $y_5=2$ \\
+                                    1 & 2  & 0  & -1 & 0 & $y_1=3$ \\
+                              \end{tabular}
+                              $\rightarrow$
+                              \begin{tabular}{cccc|c}
+                                    0 & 0  & 0  & 0 & 0       \\
+                                    \hline
+                                    0 & -1 & -1 & 1 & $y_4=2$ \\
+                                    1 & 1  & -1 & 0 & $y_1=5$
+                              \end{tabular}
+                        \end{table}
+                        Phase-II:
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{cccc|c}
+                                    -8 & -10 & 0  & 0 & 0       \\
+                                    \hline
+                                    0  & -1  & -1 & 1 & $y_4=2$ \\
+                                    1  & 1   & -1 & 0 & $y_1=5$
+                              \end{tabular}$\rightarrow$
+                              \begin{tabular}{cccc|c}
+                                    0 & -2 & -8 & 0 & 40        \\
+                                    \hline
+                                    0 & -1 & -1 & 1 & $y_4 = 2$ \\
+                                    1 & 1  & -1 & 0 & $y_1 = 5$
+                              \end{tabular}\\
+                              $\rightarrow$
+                              \begin{tabular}{cccc|c}
+                                    0 & -2 & -8 & 0 & 40        \\
+                                    \hline
+                                    0 & -1 & -1 & 1 & $y_4 = 2$ \\
+                                    1 & 1  & -1 & 0 & $y_1 = 5$
+                              \end{tabular}
+                        \end{table}
+                        We get $\bar{y} = \begin{bmatrix}
+                                    5 \\ 0
+                              \end{bmatrix}$, and the optimal is value 40.
+                        \begin{align*}
+                              c^T\bar{x} = \begin{bmatrix}
+                                                 5 & 3
+                                           \end{bmatrix}\begin{bmatrix} 8 \\0
+                                                        \end{bmatrix} = 40 = \bar{y}^Tb\begin{bmatrix}
+                                                                                             5 & 0
+                                                                                       \end{bmatrix}\begin{bmatrix}
+                                                                                                          8 \\10
+                                                                                                    \end{bmatrix}
+                        \end{align*}
+                  \item Use the primal optimal basis $B$ you found in Part (a) to verify that $c^T_BA^{-1}_B = \bar{y}^{T}$.\\
+                        \textbf{Ans.}
+                        \begin{align*}
+                              x_B = \begin{bmatrix}
+                                          x_1 \\x_4
+                                    \end{bmatrix},c_B = \begin{bmatrix}
+                                                              5 \\ 0
+                                                        \end{bmatrix},
+                              A_B = \begin{bmatrix}
+                                          1 & 0 \\1 & 1
+                                    \end{bmatrix},A_B^{-1} = \begin{bmatrix}
+                                                                   1 & 0 \\-1 & 1
+                                                             \end{bmatrix}
+                        \end{align*}
+                        then we can verify that
+                        \begin{align*}
+                              c_B^TA_B^{-1} = \begin{bmatrix}
+                                                    5 & 0
+                                              \end{bmatrix}\begin{bmatrix}
+                                                                 1 & 0 \\-1 & 1
+                                                           \end{bmatrix} = \begin{bmatrix}
+                                                                                 5 & 0
+                                                                           \end{bmatrix} = \bar{y}^T
+                        \end{align*}
+                  \item Find the shadow prices for the two primal constraints.\\
+                        \textbf{Ans.}\\
+                        Shadow prices are the dual optimal solution, so
+                        \begin{align*}
+                              x_1 + x_2 \leq 8 \rightarrow \text{shadow price} = 5 \\
+                              x_1 + 2x_2 \leq 10 \rightarrow \text{shadow price} = 0
+                        \end{align*}
+            \end{enumerate}
+\end{enumerate}
+\end{document}

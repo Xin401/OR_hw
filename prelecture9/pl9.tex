@@ -1,0 +1,125 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Pre-lecture Problems for Lecture 9:\\ Sensitivity Analysis and Dual Simplex Method}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+\begin{enumerate}
+      \item[2.] (10 points) Consider an LP:
+            \begin{align*}
+                  \max \quad        & 3x_1 + 5x_2            \\
+                  \text{s.t.} \quad & x_1 + x_2 \leq 16      \\
+                                    & x_1 + 2x_2 \leq 20     \\
+                                    & x_1 \geq 0, x_2 \geq 0
+            \end{align*}
+            \begin{enumerate}
+                  \item Find an optimal solution by the simplex method and its optimal tableau.\\
+                        \textbf{Ans.}\\
+                        Transform the LP to standard form:
+                        \begin{align*}
+                              \max \quad        & 3x_1 + 5x_2                     \\
+                              \text{s.t.} \quad & x_1 + x_2 + x_3 = 16            \\
+                                                & x_1 + 2x_2 +x_4 = 20            \\
+                                                & x_i \geq 0, \forall i = 1,2,3,4
+                        \end{align*}
+                        Solve the LP by simplex method:
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{cccc|c}
+                                    -3 & -5 & 0 & 0 & 0        \\
+                                    \hline
+                                    1  & 1  & 1 & 0 & $x_3=16$ \\
+                                    1  & 2  & 0 & 1 & $x_4=20$ \\
+                              \end{tabular} $\rightarrow$
+                              \begin{tabular}{cccc|c}
+                                    0 & -2 & 3  & 0 & 48       \\
+                                    \hline
+                                    1 & 1  & 1  & 0 & $x_1=16$ \\
+                                    0 & 1  & -1 & 1 & $x_4=4$  \\
+                              \end{tabular} $\rightarrow$
+                              \begin{tabular}{cccc|c}
+                                    0 & 0 & 1  & 2  & 56       \\
+                                    \hline
+                                    1 & 0 & 2  & -1 & $x_1=12$ \\
+                                    0 & 1 & -1 & 1  & $x_2=4$  \\
+                              \end{tabular}
+                        \end{table}
+                        The optimal solution is $(x_1,,x_2,x_3,x_4)$ = $(12,4,0,0)$ and the optimal value is 56.
+                  \item Suppose that the LP becomes:
+                        \begin{align*}
+                              \max \quad        & 3x_1 + 5x_2            \\
+                              \text{s.t.} \quad & x_1 + x_2 \leq 16      \\
+                                                & x_1 + 2x_2 \leq 20     \\
+                                                & 3x_1 + 3x_2 \leq 42    \\
+                                                & x_1 \geq 0, x_2 \geq 0
+                        \end{align*}\\
+                        \textbf{Ans.}\\
+                        Let $B = (x_1,x_2,s_3), N = (s_1,x_2).$
+                        We get $c_B = \begin{bmatrix}
+                                    3 \\5\\0
+                              \end{bmatrix}, c_N = \begin{bmatrix}
+                                    0 \\0
+                              \end{bmatrix},A_B = \begin{bmatrix}
+                                    1 & 1 & 0 \\
+                                    1 & 2 & 0 \\
+                                    3 & 3 & 1
+                              \end{bmatrix}, \\A_N = \begin{bmatrix}
+                                    1 & 0 \\
+                                    0 & 1 \\
+                                    0 & 0
+                              \end{bmatrix}, b = \begin{bmatrix}
+                                    16 \\20\\42
+                              \end{bmatrix}.$\\
+                        Then $A^{-1}_B = \begin{bmatrix}
+                                    2  & -1 & 0 \\
+                                    -1 & 1  & 0 \\
+                                    -3 & 0  & 1
+                              \end{bmatrix}, A_b^{-1}A_N=\begin{bmatrix}
+                                    2  & -1 \\
+                                    -1 & 1  \\
+                                    -3 & 0  \\
+                              \end{bmatrix}, A_B^{-1}b = \begin{bmatrix}
+                                    12 \\4\\-6
+                              \end{bmatrix}, \\
+                              c_B^TA_B^{-1}A_N-c_N^T=\begin{bmatrix}
+                                    1 & 2
+                              \end{bmatrix}, c^T_BA_B^{-1}b=56$\\
+                        We can get a tableau:
+                        \begin{table}[H]
+                              \centering
+                              \begin{tabular}{ccccc|c}
+                                    0 & 0 & 1  & 2  & 0 & 56 \\
+                                    \hline
+                                    1 & 0 & 2  & -1 & 0 & 12 \\
+                                    0 & 1 & -1 & 1  & 0 & 4  \\
+                                    0 & 0 & -3 & 0  & 1 & -6 \\
+                              \end{tabular}$\rightarrow$
+                              \begin{tabular}{ccccc|c}
+                                    0 & 0 & 1  & 2  & 0              & 56 \\
+                                    \hline
+                                    1 & 0 & 2  & -1 & 0              & 12 \\
+                                    0 & 1 & -1 & 1  & 0              & 4  \\
+                                    0 & 0 & 1  & 0  & $-\frac{1}{3}$ & 2  \\
+                              \end{tabular}\\
+                              $\rightarrow$
+                              \begin{tabular}{ccccc|c}
+                                    0 & 0 & 0 & 2  & $\frac{1}{3}$  & 54 \\
+                                    \hline
+                                    1 & 0 & 0 & -1 & $\frac{2}{3}$  & 8  \\
+                                    0 & 1 & 0 & 1  & $-\frac{1}{3}$ & 6  \\
+                                    0 & 0 & 1 & 0  & $-\frac{1}{3}$ & 2  \\
+                              \end{tabular}
+                        \end{table}
+            \end{enumerate}
+            The optimal solution is $(x_1,x_2,s_1,s_2,s_3)$ = $(8,6,2,0,0)$ and the optimal value is 54.
+\end{enumerate}
+\end{document}

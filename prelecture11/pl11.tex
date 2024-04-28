@@ -1,0 +1,39 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Pre-lecture Problems for Lecture 9:\\ Sensitivity Analysis and Dual Simplex Method}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+      \begin{enumerate}
+            \item (10 point) For each of the following functions, find the region over which the function is convex (or
+      conclude that the function is nowhere convex.)
+      \begin{enumerate}
+            \item $f(x) = 2x^3 - x^2 + x + 2.$\\
+            \textbf{Ans.}\\
+            $\nabla^2f(x) = 12x - 2.$ So the fuction is convex when $x \geq \frac{1}{6}.$ 
+            \item $f(x_1,x_2) = -x^3_1 + 4x_2^2 + x_1 + 2.$\\
+            \textbf{Ans.}\\   
+            The Hessian matrix of $f(x_1,x_2)$ is $\begin{bmatrix}
+                  -6x_1 & 0\\
+                  0 & 8 
+            \end{bmatrix}.$ So the function is convex when $x_1 \leq 0.$
+            \item $f(x_1,x_2,x_3) = 6x_1^2x_3 + 2x_2x_3 + 3x_2^2 + 2.$\\
+            \textbf{Ans.}\\
+            The Hessian matrix of $f(x_1,x_2,x_3)$ is $\begin{bmatrix}
+                  12x_3 & 0 & 12x_1\\
+                  0 & 6 & 2\\
+                  12x_1 & 2 & 0      
+            \end{bmatrix}.$\\ 
+            Let the first leading priciple minor $12x_3 \geq 0$, and the third leading priciple minor $-864x_1^2 - 48x_3 \geq 0$, which is impossible. So the function is nowhere convex. 
+      \end{enumerate}
+      \end{enumerate}
+\end{document}

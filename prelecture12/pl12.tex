@@ -1,0 +1,54 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Pre-lecture Problems for Lecture 12:\\ Lagrange Duality and the KKT Condition}
+\author{B10705034 資管三\ 許文鑫}
+\geometry{a4paper,scale=0.8}
+\begin{document}
+\maketitle
+\begin{enumerate}
+      \item (10 points; 2 points each) Consider the following nonlinear program
+            \begin{align*}
+                  \min \quad        & (x_1 -3)^2 + (x_2 -2)^2 \\
+                  \text{s.t.} \quad & x_1 + 2x_2 \geq 10.
+            \end{align*}
+            \begin{enumerate}
+                  \item Prove or disprove that the NLP is a convex program.\\
+                        \textbf{Ans.}
+                        The Hessain matrix of the objective function is
+                        \begin{align*}
+                              \begin{bmatrix}
+                                    2 & 0 \\
+                                    0 & 2
+                              \end{bmatrix}
+                        \end{align*}
+                        which is positive semi-definite. Therefore, the NLP is convex.
+                  \item Find the Lagrangian of this NLP. What is the sign constraint for your Lagrangian mulitplier?\\
+                        \textbf{Ans.}
+                        \begin{align*}
+                              \mathcal{L}(x|\lambda) = (x_1 -3)^2 + (x_2 -2)^2 + \lambda(10 - x_1 - 2x_2)
+                        \end{align*}
+                        Since it is a minimization, so the sign constraint for the Lagrangian multiplier is $\lambda \geq 0$.
+                  \item According to the FOC of the Lagrangian, find a necessary condition for any optimal solution.\\
+                        \textbf{Ans.}\\
+                        The FOC of the Lagrangian is
+                        \begin{align*}
+                              \begin{cases}
+                                    \frac{\partial L}{\partial x_1} = 2(x_1 - 3) + \lambda = 0  \\
+                                    \frac{\partial L}{\partial x_2} = 2(x_2 - 2) + 2\lambda = 0 \\
+                              \end{cases}
+                        \end{align*}
+                        if $\lambda = 0$, then $x_1 = 3, x_2 = 2$, but it is not feasible; if $\lambda > 0$, then $x_1 = \frac{18}{5}, x_2 = \frac{16}{5}$ and $\lambda = \frac{6}{5}$, which is feasible, so this is a necessary condition.
+                  \item Find an optimal solution for the NLP.\\
+                        \textbf{Ans.}
+                        From (c), we have an optimal solution $(x_1,x_2) = (\frac{18}{5},\frac{16}{5})$, and the optimal value is $1.8$.
+            \end{enumerate}
+\end{enumerate}
+\end{document}
